@@ -1,7 +1,7 @@
 {
   "name": "Shivam QR Generator",
   "short_name": "Shivam QR",
-  "start_url": "./index.html",
+  "start_url": "./QR_code_generator.html",
   "display": "standalone",
   "background_color": "#090d16",
   "theme_color": "#090d16",
