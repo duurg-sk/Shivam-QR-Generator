@@ -456,7 +456,6 @@
 
         let qrCode;
         let uploadedLogoDataUrl = "";
-        let currentDotStyle = 'rounded';
 
         window.onload = () => {
             qrCode = new QRCodeStyling({
@@ -512,7 +511,6 @@
             const bgColor = bgType === 'transparent' ? 'transparent' : document.getElementById("color-background").value;
             
             const dotStyle = document.getElementById("dot-style").value;
-            currentDotStyle = dotStyle;
             const cornerSquareStyle = document.getElementById("corner-square-style").value;
             const cornerDotStyle = document.getElementById("corner-dot-style").value;
             const logoScale = parseFloat(document.getElementById("logo-size").value);
@@ -572,11 +570,6 @@
         // Universal Exporter Engine Processing Routine
         function downloadQR() {
             const format = document.getElementById('export-format').value;
-            const canvasWrapper = document.getElementById('canvas-container');
-            
-            // Remove filter before exporting to ensure clean export
-            const originalFilter = canvasWrapper.style.filter;
-            canvasWrapper.style.filter = "none";
             
             // If SVG is selected, we perform an operational shift to rebuild the vector mapping safely
             if (format === 'svg') {
@@ -585,16 +578,10 @@
                     qrCode.download({ name: "shivam_qrcode", extension: "svg" });
                     // Switch back to canvas to preserve the filter ecosystem
                     qrCode.update({ type: 'canvas' });
-                    // Restore the filter for display
-                    canvasWrapper.style.filter = originalFilter;
                 }, 50);
             } else {
                 // Otherwise extract canvas layers directly into web formats
                 qrCode.download({ name: "shivam_qrcode", extension: format });
-                // Restore the filter for display after a brief delay
-                setTimeout(() => {
-                    canvasWrapper.style.filter = originalFilter;
-                }, 100);
             }
         }
     </script>
