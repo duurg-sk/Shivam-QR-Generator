@@ -3,8 +3,8 @@ const ASSETS = [
   './',
   './index.html',
   './manifest.json',
-  './icon-192.png',
-  './icon-512.png',
+  'https://images.unsplash.com/photo-1634973357973-f2ed255753e1?w=192&h=192&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1634973357973-f2ed255753e1?w=512&h=512&fit=crop&q=80',
   'https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js'
 ];
 
