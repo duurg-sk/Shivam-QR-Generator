@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shivam QR Generator</title>
-    <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -19,7 +18,7 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: var(--bg-main);
             color: var(--text-main);
             margin: 0;
@@ -168,6 +167,7 @@
             position: relative;
         }
 
+        /* Container target for custom SVG masking filters */
         #canvas-container {
             position: relative;
             transition: filter 0.3s ease;
@@ -353,8 +353,8 @@
             qrCode = new QRCodeStyling({
                 width: 340,
                 height: 340,
-                type: "canvas",
-                data: "Shivam QR Generator",
+                type: "canvas", // Set to canvas to allow cross-format extractions
+                data: "Shivam QR Generator", // Default QR code content updated here
                 image: "",
                 qrOptions: { errorCorrectionLevel: 'H' },
                 imageOptions: { crossOrigin: "anonymous", hideBackgroundDots: true, margin: 5 }
@@ -362,15 +362,9 @@
 
             qrCode.append(document.getElementById("canvas-container"));
             toggleColorModes();
-
-            // Register Service Worker for offline capability
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('./sw.js')
-                .then(() => console.log("Service Worker registered successfully."))
-                .catch(err => console.log("Service worker execution failed: ", err));
-            }
         };
 
+        // File/Logo pipeline handler
         document.getElementById('logo-input').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -413,6 +407,7 @@
             const cornerDotStyle = document.getElementById("corner-dot-style").value;
             const logoScale = parseFloat(document.getElementById("logo-size").value);
 
+            // Handle Extended Processing Filters visually via DOM styling hooks
             const canvasWrapper = document.getElementById('canvas-container');
             if (dotStyle === 'liquid') {
                 canvasWrapper.style.filter = "url(#liquid-melt)";
@@ -422,6 +417,7 @@
                 canvasWrapper.style.filter = "none";
             }
 
+            // Map UI strings cleanly to native engine properties
             let targetDotStyle = dotStyle;
             if (dotStyle === 'liquid') targetDotStyle = 'extra-rounded';
             if (dotStyle === 'mesh') targetDotStyle = 'square';
@@ -463,15 +459,20 @@
             });
         }
 
+        // Universal Exporter Engine Processing Routine
         function downloadQR() {
             const format = document.getElementById('export-format').value;
+            
+            // If SVG is selected, we perform an operational shift to rebuild the vector mapping safely
             if (format === 'svg') {
                 qrCode.update({ type: 'svg' });
                 setTimeout(() => {
                     qrCode.download({ name: "shivam_qrcode", extension: "svg" });
+                    // Switch back to canvas to preserve the filter ecosystem
                     qrCode.update({ type: 'canvas' });
                 }, 50);
             } else {
+                // Otherwise extract canvas layers directly into web formats
                 qrCode.download({ name: "shivam_qrcode", extension: format });
             }
         }
