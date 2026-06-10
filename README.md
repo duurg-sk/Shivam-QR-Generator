@@ -1,6 +1,16 @@
+# <div align="center"><img src="logo.svg" alt="Shivam QR Code Generator Logo" width="200" height="200"></div>
+
 # Shivam QR Code Generator
 
+<div align="center">
+
 A beautiful, feature-rich QR code generator with offline support. Create stunning QR codes with custom shapes, gradients, logos, and multiple export formats.
+
+[🌐 Visit Live Site](https://duurg-sk.github.io/Shivam-QR-Generator) • [⭐ Star this repo](https://github.com/duurg-sk/Shivam-QR-Generator) • [📸 View Examples](#examples)
+
+</div>
+
+---
 
 ## ✨ Features
 
@@ -65,6 +75,7 @@ Simply visit the live site (GitHub Pages) and start creating QR codes immediatel
 - `index.html` - Main application with all UI and logic
 - `manifest.json` - PWA manifest for installation
 - `sw.js` - Service Worker for offline caching
+- `logo.svg` - Project logo (shown in README)
 - `README.md` - This documentation
 
 ## 🔧 Technical Details
@@ -112,4 +123,12 @@ Found a bug or have a feature request? Feel free to open an issue!
 - SVG format is perfect for print and scaling
 - PNG is ideal for web and sharing
 
+---
+
+<div align="center">
+
 Enjoy creating beautiful QR codes! 🎉
+
+Made with ❤️ by [Shivam](https://github.com/duurg-sk)
+
+</div>
