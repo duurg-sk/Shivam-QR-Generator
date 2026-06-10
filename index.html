@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shivam QR Generator</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#38bdf8">
+    <meta name="description" content="Create beautiful custom QR codes with extended shapes, gradients, and logo overlays. Works completely offline!">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23090d16' width='192' height='192'/><rect fill='%2338bdf8' x='20' y='20' width='152' height='152'/></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23090d16' width='192' height='192'/><rect fill='%2338bdf8' x='20' y='20' width='152' height='152'/></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -194,10 +199,46 @@
             box-sizing: border-box;
             text-decoration: none;
             display: block;
+            margin-bottom: 8px;
         }
 
         .action-btn:hover {
             background-color: #059669;
+        }
+
+        .install-btn {
+            background-color: #8b5cf6;
+            color: white;
+            font-weight: 600;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+            display: none;
+            margin-bottom: 8px;
+        }
+
+        .install-btn:hover {
+            background-color: #7c3aed;
+        }
+
+        .status-message {
+            font-size: 12px;
+            color: #64748b;
+            text-align: center;
+            padding: 8px;
+            margin-top: 8px;
+            border-radius: 6px;
+            background-color: rgba(56, 189, 248, 0.1);
+            display: none;
+        }
+
+        .status-message.show {
+            display: block;
         }
     </style>
 </head>
@@ -221,7 +262,7 @@
         <div class="controls-panel">
             <div>
                 <h1>Shivam QR Generator</h1>
-                <p style="color: var(--text-muted); margin: 0; font-size: 13px;">Extended shapes and universal format exporter desk.</p>
+                <p style="color: var(--text-muted); margin: 0; font-size: 13px;">Extended shapes and universal format exporter desk. Works offline!</p>
             </div>
 
             <div class="form-group">
@@ -339,13 +380,65 @@
             <div class="qr-wrapper">
                 <div id="canvas-container"></div>
             </div>
+            <button id="install-btn" class="install-btn" onclick="installApp()">📲 Install App</button>
             <button class="action-btn" onclick="downloadQR()">Export Asset</button>
+            <div id="status-message" class="status-message"></div>
         </div>
     </div>
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
 
     <script>
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').then(registration => {
+                console.log('Service Worker registered:', registration);
+            }).catch(error => {
+                console.log('Service Worker registration failed:', error);
+            });
+        }
+
+        // PWA Install Button Handler
+        let deferredPrompt;
+        const installBtn = document.getElementById('install-btn');
+        const statusMessage = document.getElementById('status-message');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'block';
+        });
+
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        showStatus('✓ App installed successfully!');
+                        installBtn.style.display = 'none';
+                    } else {
+                        showStatus('Installation cancelled');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
+
+        function showStatus(message) {
+            statusMessage.textContent = message;
+            statusMessage.classList.add('show');
+            setTimeout(() => {
+                statusMessage.classList.remove('show');
+            }, 3000);
+        }
+
+        // App Installed Handler
+        window.addEventListener('appinstalled', () => {
+            console.log('PWA was installed');
+            installBtn.style.display = 'none';
+            showStatus('📲 App is ready to use offline!');
+        });
+
         let qrCode;
         let uploadedLogoDataUrl = "";
 
@@ -353,8 +446,8 @@
             qrCode = new QRCodeStyling({
                 width: 340,
                 height: 340,
-                type: "canvas", // Set to canvas to allow cross-format extractions
-                data: "Shivam QR Generator", // Default QR code content updated here
+                type: "canvas",
+                data: "Shivam QR Generator",
                 image: "",
                 qrOptions: { errorCorrectionLevel: 'H' },
                 imageOptions: { crossOrigin: "anonymous", hideBackgroundDots: true, margin: 5 }
