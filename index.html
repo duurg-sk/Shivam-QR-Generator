@@ -71,6 +71,18 @@
             border-radius: 10px;
         }
 
+        .title-with-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .title-logo {
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
+        }
+
         h1 {
             font-size: 26px;
             font-weight: 700;
@@ -261,7 +273,10 @@
     <div class="studio-container">
         <div class="controls-panel">
             <div>
-                <h1>Shivam QR Generator</h1>
+                <div class="title-with-logo">
+                    <img src="logo.svg" alt="Logo" class="title-logo">
+                    <h1>Shivam QR Generator</h1>
+                </div>
                 <p style="color: var(--text-muted); margin: 0; font-size: 13px;">Extended shapes and universal format exporter desk. Works offline!</p>
             </div>
 
