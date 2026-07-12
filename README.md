@@ -58,7 +58,6 @@ Simply visit the live site (GitHub Pages) and start creating QR codes immediatel
 - ✅ Chrome/Chromium (Windows, Mac, Linux, Android)
 - ✅ Edge (Windows, Mac, Linux)
 - ✅ Samsung Internet (Android)
-- ✅ Firefox (Linux, Android) - upcoming
 - ✅ Safari (iOS 15+) - limited PWA support
 
 ## 🛠️ How to Use
@@ -121,7 +120,7 @@ Found a bug or have a feature request? Feel free to open an issue!
 - Transparent backgrounds work best with dark themes
 - Test generated codes with multiple scanners to ensure compatibility
 - SVG format is perfect for print and scaling
-- PNG is ideal for web and sharing
+- PNG is ideal for sharing
 
 ---
 
